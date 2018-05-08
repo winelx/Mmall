@@ -8,6 +8,20 @@ public interface IUserService {
     //登录接口
     ServiceReponse<User> login(String username, String password);
 
+    //注册
     ServiceReponse<String> register(User user);
 
+    //校验用户名，邮箱
+    ServiceReponse<String> chekValid(String str, String type);
+
+    //找回密码问题
+    ServiceReponse serviceReponse(String username);
+
+    //密码问题答案校验
+    ServiceReponse<String> chekAnswer(String username, String question, String answere);
+
+    //修改密码
+    ServiceReponse<String> forgetRestPasword(String username, String passwordNew, String forgetToken);
+    //登录状态修改密码
+    ServiceReponse<String> resetPassword(String password, String passwordNew, User user);
 }

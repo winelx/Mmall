@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * 中间层，将方法具体操封装，这里只调用它对外暴露的方法，面向对象编程
+ */
 @Controller
 @RequestMapping("/user/")
 public class Usercontroller {
@@ -62,4 +65,71 @@ public class Usercontroller {
         return iUserService.register(user);
     }
 
+    /**
+     * 校验接口
+     */
+    @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<String> checkValid(String str, String type) {
+        return iUserService.chekValid(str, type);
+    }
+
+    /**
+     * 是否登录
+     */
+    @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<User> getUserInfo(HttpSession session) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user != null) {
+            return ServiceReponse.createBySuccess(user);
+        }
+        return ServiceReponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
+    }
+
+    /**
+     * 密码提示问题获取
+     */
+    @RequestMapping(value = "forget_get_qusetion.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<String> forgetGetQuestion(String username) {
+        return iUserService.serviceReponse(username);
+    }
+
+    /**
+     * 校验密码问题是否正确
+     */
+    @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<String> forgetCheckAnswer(String username, String question, String answer) {
+        return iUserService.chekAnswer(username, question, answer);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    @RequestMapping(value = "forget_rest_password.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<String> forgetRestPassword(String username, String passwordNew, String forgetToken) {
+
+        return iUserService.forgetRestPasword(username, passwordNew, forgetToken);
+    }
+
+    /**
+     * 登录状态修改密码
+     */
+    @RequestMapping(value = "rest_password.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<String> resetPasword(HttpSession session, String password, String passwordNew) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServiceReponse.createByErrorMessage("用户未登录");
+        }
+        return iUserService.resetPassword(password, passwordNew, user);
+    }
 }
