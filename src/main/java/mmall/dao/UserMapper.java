@@ -18,6 +18,7 @@ public interface UserMapper {
 
     //查询用户名，在登录时判断用户名是否存
     int checkusername(String username);
+    int checkuserEmail(String email);
 
     User selectLogin(@Param("username") String username,
                      @Param("password") String password);

@@ -7,4 +7,7 @@ import mmall.pojo.User;
 public interface IUserService {
     //登录接口
     ServiceReponse<User> login(String username, String password);
+
+    ServiceReponse<String> register(User user);
+
 }
