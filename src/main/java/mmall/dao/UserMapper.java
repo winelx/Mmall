@@ -41,4 +41,6 @@ public interface UserMapper {
 
     //登录状态下修改密码
     int checkPassword(@Param("password") String password, @Param("userId") Integer userId);
+    //查询用户邮箱和用户ID
+    int checkEmailByUserId(@Param("email")String email,@Param("userId")Integer userId);
 }

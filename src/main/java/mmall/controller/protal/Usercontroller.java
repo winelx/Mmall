@@ -2,6 +2,7 @@ package mmall.controller.protal;
 
 
 import mmall.common.Const;
+import mmall.common.ResponseCode;
 import mmall.common.ServiceReponse;
 import mmall.pojo.User;
 import mmall.service.IUserService;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpSession;
 public class Usercontroller {
     @Autowired
     private IUserService iUserService;
-
     /**
      * 用户登录
      *
@@ -116,7 +116,6 @@ public class Usercontroller {
     @RequestMapping(value = "forget_rest_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServiceReponse<String> forgetRestPassword(String username, String passwordNew, String forgetToken) {
-
         return iUserService.forgetRestPasword(username, passwordNew, forgetToken);
     }
 
@@ -131,5 +130,37 @@ public class Usercontroller {
             return ServiceReponse.createByErrorMessage("用户未登录");
         }
         return iUserService.resetPassword(password, passwordNew, user);
+    }
+    /**
+     * 更新个人信息
+     */
+    @RequestMapping(value = "updata_information.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<User> updata_information(HttpSession session,User user){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServiceReponse.createByErrorMessage("用户未登录");
+        }
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        ServiceReponse<User> reponse=iUserService.updataInformation(user);
+        if (reponse.isSuccess()){
+            session.setAttribute(Const.CURRENT_USER,reponse.getData());
+        }
+        return reponse;
+    }
+
+    /**
+     * 获取用户信息
+     */
+    @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServiceReponse<User>get_information(HttpSession session){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServiceReponse.createByError(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要先登录");
+        }
+        return iUserService.getInfomation(currentUser.getId());
+
     }
 }

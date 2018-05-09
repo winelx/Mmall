@@ -29,7 +29,6 @@ public class TokenCache {
 
     public static String getkey(String key) {
         String value = null;
-
         try {
             value = loadingCache.get(key);
             if ("null".equals(value)) {

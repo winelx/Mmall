@@ -71,6 +71,10 @@ public class ServiceReponse<T> implements Serializable {
     }
 
     //请求失败
+    public static <T> ServiceReponse<T> createByError(int code, String s){
+        return new ServiceReponse<T>(ResponseCode.SUCCESS.getCode(),ResponseCode.ERROR.getDesc());
+    }
+    //请求失败
     public static <T> ServiceReponse<T> createByError(){
         return new ServiceReponse<T>(ResponseCode.SUCCESS.getCode(),ResponseCode.ERROR.getDesc());
     }

@@ -24,4 +24,11 @@ public interface IUserService {
     ServiceReponse<String> forgetRestPasword(String username, String passwordNew, String forgetToken);
     //登录状态修改密码
     ServiceReponse<String> resetPassword(String password, String passwordNew, User user);
+    //更新个人信息
+    ServiceReponse<User> updataInformation(User user);
+    //获取个人信息
+    ServiceReponse<User> getInfomation(Integer userId);
+    //恔验是否是管理员
+    ServiceReponse checkAdminRole(User user);
+
 }

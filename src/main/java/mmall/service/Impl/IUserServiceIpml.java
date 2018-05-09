@@ -1,10 +1,11 @@
-package mmall.service;
+package mmall.service.Impl;
 
 import mmall.common.Const;
 import mmall.common.ServiceReponse;
 import mmall.common.TokenCache;
 import mmall.dao.UserMapper;
 import mmall.pojo.User;
+import mmall.service.IUserService;
 import mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,5 +170,50 @@ public class IUserServiceIpml implements IUserService {
             return ServiceReponse.createBySuccess("密码更新成功");
         }
         return ServiceReponse.createByErrorMessage("密码更新失败");
+    }
+    /**
+     * 修改用户信息
+     */
+    public  ServiceReponse<User> updataInformation(User user){
+        //username是不能更新的
+        //email需要需要进行恔烟，恔验新的email是不是已经存在，并且存在的email如果相同，也是不能使用的
+        int resultCount=userMapper.checkEmailByUserId(user.getEmail(),user.getId());
+        if (resultCount>0){
+            return ServiceReponse.createByErrorMessage("邮箱已存在");
+        }
+        User updateUser=new User();
+        updateUser.setId(user.getId());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+        updateUser.setAnswer(user.getAnswer());
+
+        int updataCount =userMapper.updateByPrimaryKeySelective(updateUser);
+        if (updataCount>0){
+            return ServiceReponse.createBySuccess("更新成功");
+        }
+        return ServiceReponse.createByErrorMessage("更新失败");
+
+    }
+    /**
+     * 获取用户信息
+     *
+     */
+    public ServiceReponse<User> getInfomation(Integer userId){
+        User user =userMapper.selectByPrimaryKey(userId);
+        if (user==null){
+           return ServiceReponse.createByErrorMessage("找不到当前用户");
+        }
+        user.setPassword(StringUtils.EMPTY);
+        return ServiceReponse.createBySuccess(user);
+    }
+    /**
+     * 恔验是否是管理员
+     */
+    public  ServiceReponse checkAdminRole(User user){
+        if (user!=null&& user.getRole().intValue()==Const.Role.ROLE_ADMIN){
+            return ServiceReponse.createBySuccess();
+        }
+        return ServiceReponse.createByError();
     }
 }
