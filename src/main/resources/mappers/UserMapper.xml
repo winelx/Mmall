@@ -153,13 +153,13 @@
   </update>
     <!--//查询输入用户是否存在-->
     <select id="checkusername" resultType="int" parameterType="String">
-    select count(1)form mmall_user
+    select count(1) from mmall_user
     where username=#{username}
   </select>
 
     <!--//查询输入用户是否存在-->
     <select id="checkuserEmail" resultType="int" parameterType="String">
-    select count(1)form mmall_user
+    select count(1) from mmall_user
     where email=#{email}
   </select>
 
@@ -168,7 +168,7 @@
         <include refid="Base_Column_List"/>
         from mmall_user
         where username=#{username}
-        and passwoed=#{password}
+        and password=#{password}
     </select>
     <select id="selectQusetionByUsername" resultType="string" parameterType="string">
     select

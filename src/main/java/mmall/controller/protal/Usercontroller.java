@@ -30,9 +30,10 @@ public class Usercontroller {
      * @param session
      * @return
      */
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServiceReponse<User> Login(String username, String password, HttpSession session) {
+
         ServiceReponse<User> reponse = iUserService.login(username, password);
         if (reponse.isSuccess()) {
             session.setAttribute(Const.CURRENT_USER, reponse.getData());

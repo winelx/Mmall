@@ -31,9 +31,7 @@ public class IUserServiceIpml implements IUserService {
         if (resultCount == 0) {
             return ServiceReponse.createByErrorMessage("用户名不存在");
         }
-        //
-        String Md5Password = MD5Util.MD5EncodeUtf8(password);
-        User user = userMapper.selectLogin(username, Md5Password);
+        User user = userMapper.selectLogin(username, password);
         if (user == null) {
             return ServiceReponse.createByErrorMessage("密码错误");
         }
