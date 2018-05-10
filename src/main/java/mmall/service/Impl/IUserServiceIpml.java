@@ -62,7 +62,7 @@ public class IUserServiceIpml implements IUserService {
         if (resultCount == 0) {
             return ServiceReponse.createByErrorMessage("注册失败");
         }
-        return ServiceReponse.createBySuccess("登录成功");
+        return ServiceReponse.createBySuccess("注册成功");
     }
 
     /**
