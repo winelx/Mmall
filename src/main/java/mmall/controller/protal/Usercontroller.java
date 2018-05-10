@@ -60,7 +60,7 @@ public class Usercontroller {
      * @param user
      * @return
      */
-    @RequestMapping(value = "register.do", method = RequestMethod.POST)
+    @RequestMapping(value = "register.do", method = RequestMethod.GET)
     @ResponseBody
     public ServiceReponse<String> register(User user) {
         return iUserService.register(user);
@@ -72,7 +72,7 @@ public class Usercontroller {
     @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
     @ResponseBody
     public ServiceReponse<String> checkValid(String str, String type) {
-        return iUserService.chekValid(str, type);
+        return iUserService.checkValid(str, type);
     }
 
     /**

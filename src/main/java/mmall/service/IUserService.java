@@ -12,7 +12,7 @@ public interface IUserService {
     ServiceReponse<String> register(User user);
 
     //校验用户名，邮箱
-    ServiceReponse<String> chekValid(String str, String type);
+    ServiceReponse<String> checkValid(String str, String type);
 
     //找回密码问题
     ServiceReponse serviceReponse(String username);
