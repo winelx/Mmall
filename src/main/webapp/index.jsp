@@ -24,7 +24,7 @@
 
                     post:function(){
                         //发送post请求
-                        this.$http.post('post.do',{a:1,b:2}).then(function(res){
+                        this.$http.post('http://localhost:8080/user/check_valid.do',{str:1,type:2}).then(function(res){
                             alert(res.body);
                         },function(){
                             alert('请求失败处理'); //失败处理
