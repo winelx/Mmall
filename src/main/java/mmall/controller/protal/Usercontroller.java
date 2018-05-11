@@ -30,10 +30,9 @@ public class Usercontroller {
      * @param session
      * @return
      */
-    @RequestMapping(value = "login.do", method = RequestMethod.GET)
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServiceReponse<User> Login(String username, String password, HttpSession session) {
-
         ServiceReponse<User> reponse = iUserService.login(username, password);
         if (reponse.isSuccess()) {
             session.setAttribute(Const.CURRENT_USER, reponse.getData());
@@ -60,7 +59,7 @@ public class Usercontroller {
      * @param user
      * @return
      */
-    @RequestMapping(value = "register.do", method = RequestMethod.POST)
+    @RequestMapping(value ="register.do", method = RequestMethod.POST)
     @ResponseBody
     public ServiceReponse<String> register(User user) {
         return iUserService.register(user);
@@ -69,10 +68,10 @@ public class Usercontroller {
     /**
      * 校验接口
      */
-    @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
+    @RequestMapping(value = "check_valid.do", method = RequestMethod.GET)
     @ResponseBody
     public ServiceReponse<String> checkValid(String str, String type) {
-        return iUserService.chekValid(str, type);
+        return iUserService.checkValid(str, type);
     }
 
     /**

@@ -45,24 +45,24 @@ public class IUserServiceIpml implements IUserService {
      */
     public ServiceReponse<String> register(User user) {
         //查询用户名是否存在
-        ServiceReponse validReponse = this.chekValid(user.getUsername(), Const.USERNAME);
+        ServiceReponse validReponse = this.checkValid(user.getUsername(), Const.USERNAME);
         if (!validReponse.isSuccess()) {
             return validReponse;
         }
         //查询邮箱是否存在
-        validReponse = this.chekValid(user.getEmail(), Const.EMAIL);
+        validReponse = this.checkValid(user.getEmail(), Const.EMAIL);
         if (!validReponse.isSuccess()) {
             return validReponse;
         }
         //设置用户权限
         user.setRole(Const.Role.ROLE_CUSTOMER);
         //MD5加密
-        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        user.setPassword(user.getPassword());
         int resultCount = userMapper.insert(user);
         if (resultCount == 0) {
             return ServiceReponse.createByErrorMessage("注册失败");
         }
-        return ServiceReponse.createBySuccess("登录成功");
+        return ServiceReponse.createBySuccess("注册成功");
     }
 
     /**
@@ -72,26 +72,25 @@ public class IUserServiceIpml implements IUserService {
      * @param type
      * @return
      */
-    public ServiceReponse<String> chekValid(String str, String type) {
-        if (org.apache.commons.lang3.StringUtils.isNoneBlank(type)) {
-            //开始用户名校验
-            if (Const.USERNAME.equals(type)) {
+    public ServiceReponse<String> checkValid(String str,String type){
+        if(StringUtils.isNotBlank(type)){
+            //开始校验
+            if(Const.USERNAME.equals(type)){
                 int resultCount = userMapper.checkusername(str);
-                if (resultCount > 0) {
+                if(resultCount > 0 ){
                     return ServiceReponse.createByErrorMessage("用户名已存在");
                 }
             }
-            //开始校验邮箱
-            if (Const.EMAIL.equals(type)) {
+            if(Const.EMAIL.equals(type)){
                 int resultCount = userMapper.checkuserEmail(str);
-                if (resultCount > 0) {
+                if(resultCount > 0 ){
                     return ServiceReponse.createByErrorMessage("email已存在");
                 }
             }
-        } else {
+        }else{
             return ServiceReponse.createByErrorMessage("参数错误");
         }
-        return ServiceReponse.createByErrorMessage("校验成功");
+        return ServiceReponse.createBySuccess("校验成功");
     }
 
     /**
@@ -101,7 +100,7 @@ public class IUserServiceIpml implements IUserService {
      * @return
      */
     public ServiceReponse serviceReponse(String username) {
-        ServiceReponse validResponse = this.chekValid(username, Const.USERNAME);
+        ServiceReponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
             return ServiceReponse.createByErrorMessage("用户不存在");
         }
@@ -132,7 +131,7 @@ public class IUserServiceIpml implements IUserService {
         if (StringUtils.isBlank(forgetToken)) {
             return ServiceReponse.createByErrorMessage("参数错误，Token需要传递");
         }
-        ServiceReponse validResponse = this.chekValid(username, Const.USERNAME);
+        ServiceReponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
             return ServiceReponse.createByErrorMessage("用户不存在");
         }
