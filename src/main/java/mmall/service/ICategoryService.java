@@ -6,7 +6,7 @@ import mmall.pojo.Category;
 import java.util.List;
 
 /**
- * 
+ *
  */
 public interface ICategoryService {
 
