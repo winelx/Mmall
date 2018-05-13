@@ -72,7 +72,7 @@ public class CategoryManageController {
      * 查询商品列表
      * @param session
      * @param categotyId
-     * @return
+     * @return  返回数据
      */
     @RequestMapping("get_category.do")
     @ResponseBody
