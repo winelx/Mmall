@@ -5,6 +5,9 @@ import mmall.pojo.Category;
 
 import java.util.List;
 
+/**
+ *
+ */
 public interface ICategoryService {
 
     //添加商品
