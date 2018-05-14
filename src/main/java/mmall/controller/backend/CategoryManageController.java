@@ -1,18 +1,25 @@
 package mmall.controller.backend;
 
+import com.google.common.collect.Maps;
+import com.sun.javafx.collections.MappingChange;
 import mmall.common.Const;
 import mmall.common.ResponseCode;
 import mmall.common.ServiceReponse;
 import mmall.pojo.User;
 import mmall.service.ICategoryService;
+import mmall.service.IFileService;
 import mmall.service.IUserService;
+import mmall.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/manage/category")
@@ -23,6 +30,7 @@ public class CategoryManageController {
 
     @Autowired
     private ICategoryService iCategoryService;
+
 
 
     /**
@@ -55,28 +63,29 @@ public class CategoryManageController {
     @RequestMapping("set_category_name.do")
     @ResponseBody
     public ServiceReponse setCategoryName(HttpSession session, Integer parentId, String categoryName) {
-    User user = (User) session.getAttribute(Const.CURRENT_USER);
-    if (user==null){
-        return ServiceReponse.createByError(ResponseCode.NEED_LOGIN.getCode(),"还未登录，请先登录");
-    }
-    if (iUserService.checkAdminRole(user).isSuccess()){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServiceReponse.createByError(ResponseCode.NEED_LOGIN.getCode(), "还未登录，请先登录");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()) {
             //更新数据
-      return iCategoryService.updateCategoryName(parentId,categoryName);
-        }else {
-        return ServiceReponse.createByErrorMessage("无权限操作！");
-    }
+            return iCategoryService.updateCategoryName(parentId, categoryName);
+        } else {
+            return ServiceReponse.createByErrorMessage("无权限操作！");
+        }
 
     }
 
     /**
      * 查询商品列表
+     *
      * @param session
      * @param categotyId
-     * @return  返回数据
+     * @return 返回数据
      */
     @RequestMapping("get_category.do")
     @ResponseBody
-    public ServiceReponse getChildrenparalleCategory(HttpSession session,@RequestParam(value = "categoryId",defaultValue = "0")Integer categotyId){
+    public ServiceReponse getChildrenparalleCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") Integer categotyId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServiceReponse.createByError(ResponseCode.NEED_LOGIN.getCode(), "用户未登录！");
@@ -92,11 +101,12 @@ public class CategoryManageController {
 
     /**
      * 根据
+     *
      * @return
      */
     @RequestMapping("get_deep_category.do")
     @ResponseBody
-    public ServiceReponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(value = "categoryId",defaultValue = "0")Integer categotyId){
+    public ServiceReponse getCategoryAndDeepChildrenCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") Integer categotyId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServiceReponse.createByError(ResponseCode.NEED_LOGIN.getCode(), "用户未登录！");
@@ -104,11 +114,12 @@ public class CategoryManageController {
         //恔验是否是管理员
         if (iUserService.checkAdminRole(user).isSuccess()) {
             //是管理员 查询当前节点和子节点的商品，递归查询
-                return iCategoryService.selectCategoryAndChildernById(categotyId);
+            return iCategoryService.selectCategoryAndChildernById(categotyId);
         } else {
             return ServiceReponse.createByErrorMessage("没有权限！");
         }
     }
+
 
 }
 

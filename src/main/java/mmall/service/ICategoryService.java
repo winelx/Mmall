@@ -17,5 +17,5 @@ public interface ICategoryService {
     //查询商品
     ServiceReponse<List<Category>> getChildrenparallelCategory(Integer categoryId);
     //递归查询商品（包括子节点0
-    ServiceReponse selectCategoryAndChildernById(Integer categoryId);
+    ServiceReponse<List<Integer>> selectCategoryAndChildernById(Integer categoryId);
 }

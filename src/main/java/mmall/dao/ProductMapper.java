@@ -1,5 +1,7 @@
 package mmall.dao;
 
+import com.github.pagehelper.PageInfo;
+import mmall.common.ServiceReponse;
 import mmall.pojo.Product;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +22,11 @@ public interface ProductMapper {
 
     List<Product> selectList();
 
-    List<Product> selectByNameAndProductId(@Param("productName")String productName,@Param("productId") Integer productId);
+    List<Product> selectByNameAndProductId(@Param("productName") String productName, @Param("productId") Integer productId);
 
+    List<Product> selectBynameAndCategoryId(
+            @Param("productName") String productName,
+            @Param("categoryIdList") List<Integer> categoryIdList
+    );
 
 }

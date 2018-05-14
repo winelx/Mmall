@@ -21,4 +21,12 @@ public interface IProductService {
 
     //搜索
     ServiceReponse<PageInfo> SearchProduct(String proedctname, Integer productId, int pageNum, int pageSize);
+
+    //
+    ServiceReponse<ProductdetailVo> getProductDetail(Integer productId);
+
+    ServiceReponse<PageInfo> getProductByKeywordCategory(String keyword,
+                                                         Integer categoryId,
+                                                         int pageNum, int pageSize,
+                                                         String orderBy);
 }

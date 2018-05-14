@@ -83,7 +83,6 @@ public class ICategoryServiceImpl implements ICategoryService {
             List<Category> categoryList=categoryMapper.selectCategoryChildrenByParentId(categoryId);
                 for (Category category1:categoryList) {
                    findChildCategory(categorySet,category1.getId());
-
                 }
                 return categorySet;
 
