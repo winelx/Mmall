@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<!DOCTYPE html >
 <html>
 <head>
     <title></title>
+
     <meta charset="utf-8">
     <script src="http://unpkg.com/vue/dist/vue.js"></script>
     <script src="http://files.cnblogs.com/files/zycbloger/vue-resource.min.js"></script>

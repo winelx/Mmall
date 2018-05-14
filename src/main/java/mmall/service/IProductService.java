@@ -1,5 +1,6 @@
 package mmall.service;
 
+import com.github.pagehelper.PageInfo;
 import mmall.common.ServiceReponse;
 import mmall.pojo.Product;
 import mmall.vo.ProductdetailVo;
@@ -14,4 +15,10 @@ public interface IProductService {
 
     //获取产品详情
     ServiceReponse<ProductdetailVo> mangerProductDetail(Integer productId);
+
+    //分页
+    ServiceReponse<PageInfo> getProductList(int pageNum, int pageSize);
+
+    //搜索
+    ServiceReponse<PageInfo> SearchProduct(String proedctname, Integer productId, int pageNum, int pageSize);
 }
