@@ -18,5 +18,7 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
 
     //查询商品
-   List<Category> selectCategoryChildrenByParentId(Integer parent_id);
+    List<Category> selectCategoryChildrenByParentId(Integer parent_id);
+
+
 }

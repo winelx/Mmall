@@ -28,34 +28,36 @@ public class FtpUtil {
     }
 
 
+
     public static boolean uploadFile(List<File> fileList) throws IOException {
-        FtpUtil ftpUtil = new FtpUtil(ftpIp, 21, ftpUser, ftpPass);
+        FtpUtil ftpUtil = new FtpUtil(ftpIp,21,ftpUser,ftpPass);
         logger.info("开始连接ftp服务器");
-        boolean result=ftpUtil.uploadFile("img",fileList);
-                logger.info("开始连接ftp服务器，结束上传，上传结果");
-                return result;
+        boolean result = ftpUtil.uploadFile("img",fileList);
+        logger.info("开始连接ftp服务器,结束上传,上传结果:{}");
+        return result;
     }
 
-    public boolean uploadFile(String remotePath, List<File> fileList) throws IOException {
+
+    private boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
-        //连接ftp服务器
-        if (connectServer(this.ip, this.port, this.user, this.pwd)) {
+        //连接FTP服务器
+        if(connectServer(this.ip,this.port,this.user,this.pwd)){
             try {
                 ftpClient.changeWorkingDirectory(remotePath);
                 ftpClient.setBufferSize(1024);
-                ftpClient.setControlEncoding("utf-8");
+                ftpClient.setControlEncoding("UTF-8");
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
                 ftpClient.enterLocalPassiveMode();
-                for (File fileItem : fileList) {
+                for(File fileItem : fileList){
                     fis = new FileInputStream(fileItem);
-                    ftpClient.storeFile(fileItem.getName(), fis);
+                    ftpClient.storeFile(fileItem.getName(),fis);
                 }
-            } catch (IOException e) {
-                logger.error("上传文件异常", e);
-                uploaded=false;
-                e.printStackTrace();
 
+            } catch (IOException e) {
+                logger.error("上传文件异常",e);
+                uploaded = false;
+                e.printStackTrace();
             } finally {
                 fis.close();
                 ftpClient.disconnect();
@@ -75,6 +77,11 @@ public class FtpUtil {
         }
         return isSuccess;
     }
+
+
+
+
+
 
     public String getIp() {
         return ip;
