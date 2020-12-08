@@ -126,8 +126,43 @@
 
     </select>
 
-    <select id=""resultMap="BaseResultMap" parameterType="map">
+    <select id="selectCartByuserId" resultMap="BaseResultMap" parameterType="int">
+        select
+        <include refid="Base_Column_List"/>
+        from mmall_cart
+        where user_id=#[UserId]
+    </select>
 
+    <select id="selectCartProductCheckStatusByUserId" resultType="int" parameterType="int">
+        select count(1)
+        from mmall_cart
+        where checked = 0 and user_id = #{userIdl}
+    </select>
+    <delete id="selecByUserIdProductIds" parameterType="map">
+        delete from mall_cart
+        where user_id =#(userId)
+        <if test="priductIds !=null">
+            and product_id in
+            <foreach collection="productIds" item="item" index="index" close="(" separator="," open=")">
+                #[item]
+            </foreach>
+        </if>
+
+    </delete>
+
+    <update id="checkOrUncheckedAllProduct" parameterType="map">
+        UPDATE mmall_cart
+        set checked = #{checked},
+        update_time=now()
+        where user_id = #{userId}
+        <if test="productId != null">
+            and product_id = #{productId}
+        </if>
+    </update>
+
+    <select id="selectCartProductCount" resultType="int" parameterType="int">
+        select IFNULL(sum(quantity), 0) as count from mmall_cart where user_id = #{userId}
 
     </select>
+
 </mapper>
